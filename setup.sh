@@ -114,17 +114,38 @@ function Install_OS_packages {
 
 
     clear
-    # Install NPM packages
-    printf "[+] Install NPM packages"
-    sudo npm install -g typescript @vue/cli vue
+    # Install DBeaver
+    printf "[+] Installing DBeaver\n"
+    sudo wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb -P /tmp
+    sudo dpkg -i /tmp/dbeaver-ce_latest_amd64.deb
 
+
+    Install_NPM_packages
+}
+
+function Install_NPM_packages {
+    clear
+    
+    printf "[+] Install NPM packages\n"
+
+    npm_packages=("typescript" "@vue/cli" "vue" "yarn")
+    
+    npm_install_command="sudo npm install -g"
+
+    printf "[+] Installing these Python packages:\n"
+    for package in ${npm_packages[@]}; do
+        printf "\t$package\n"
+        npm_install_command="$npm_install_command $package"
+    done
+
+    $npm_install_command
 
     Install_Python_packages
 }
 
 function Install_Python_packages {
     clear
-    python_packages=("notebook" "aws-shell" "pytest" "memory_profiler")
+    python_packages=("jupyter" "notebook" "aws-shell" "pytest" "memory_profiler" "fastapi")
 
     pip_install_command="sudo pip3 install"
 
@@ -155,3 +176,6 @@ function Setup_ZSH {
 
 # Run the setup script
 Install_Python_packages
+
+# Clean up
+sudo apt autoremove
