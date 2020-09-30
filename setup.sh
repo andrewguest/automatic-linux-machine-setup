@@ -27,9 +27,8 @@ function setup {
         printf "[!] Error while trying to check for and install OS updates\n"
         exit 1
     fi
-
-    Github_setup
 }
+
 
 # This function will install and setup the terminal to work with Github.com
 function Github_setup {
@@ -77,9 +76,8 @@ function Github_setup {
     if [ ! -z "$error_message" ]; then
         printf "[-] $error_message\n"
     fi
-
-    Install_OS_packages
 }
+
 
 function Install_OS_packages {
     clear
@@ -118,10 +116,8 @@ function Install_OS_packages {
     printf "[+] Installing DBeaver\n"
     sudo wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb -P /tmp
     sudo dpkg -i /tmp/dbeaver-ce_latest_amd64.deb
-
-
-    Install_NPM_packages
 }
+
 
 function Install_NPM_packages {
     clear
@@ -139,9 +135,8 @@ function Install_NPM_packages {
     done
 
     $npm_install_command
-
-    Install_Python_packages
 }
+
 
 function Install_Python_packages {
     clear
@@ -156,11 +151,12 @@ function Install_Python_packages {
     done
 
     $pip_install_command
-
-    Setup_ZSH
 }
 
+
 function Setup_ZSH {
+    if [[ -f ~/.ssh/id_rsa.pub ]] ; then
+    
     printf "[+] Copying ZSH config file to home directory\n"
     cp .zshrc ~
 
@@ -174,8 +170,14 @@ function Setup_ZSH {
 
 }
 
-# Run the setup script
+
+# Run the functions
 Install_Python_packages
+Github_setup
+Install_OS_packages
+Install_NPM_packages
+Install_Python_packages
+Setup_ZSH
 
 # Clean up
 sudo apt autoremove
