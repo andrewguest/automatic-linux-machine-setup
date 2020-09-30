@@ -155,8 +155,14 @@ function Install_Python_packages {
 
 
 function Setup_ZSH {
-    if [[ -f ~/.ssh/id_rsa.pub ]] ; then
-    
+    clear
+
+    # If the .zshrc file, included with this repo, doesn't exist then pull it from Github  
+    if [[ ! -f .zshrc ]] ; then
+        printf "[+] .zshrc file not found locally. Pulling from Github"
+        wget https://raw.githubusercontent.com/andrewguest/automatic-linux-machine-setup/master/.zshrc > .zshrc
+    fi
+
     printf "[+] Copying ZSH config file to home directory\n"
     cp .zshrc ~
 
