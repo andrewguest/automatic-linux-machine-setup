@@ -1,0 +1,10 @@
+[user]
+	email = andrew@aguest.me
+	name = Andrew Guest
+	signingkey = C6C0FB5C57C18239
+[credential]
+	helper = store
+[gpg]
+	program = /usr/bin/gpg
+[commit]
+	gpgsign = true

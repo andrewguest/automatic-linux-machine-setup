@@ -76,6 +76,10 @@ function Github_setup {
     if [ ! -z "$error_message" ]; then
         printf "[-] $error_message\n"
     fi
+
+    # Pull the .gitconfig file
+    printf "[+] Pulling your custom .gitconfig file\n"
+    wget https://raw.githubusercontent.com/andrewguest/automatic-linux-machine-setup/master/.gitconfig > .gitconfig
 }
 
 
@@ -159,7 +163,7 @@ function Setup_ZSH {
 
     # If the .zshrc file, included with this repo, doesn't exist then pull it from Github  
     if [[ ! -f .zshrc ]] ; then
-        printf "[+] .zshrc file not found locally. Pulling from Github"
+        printf "[+] .zshrc file not found locally. Pulling from Github\n"
         wget https://raw.githubusercontent.com/andrewguest/automatic-linux-machine-setup/master/.zshrc > .zshrc
     fi
 
