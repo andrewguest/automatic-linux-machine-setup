@@ -90,8 +90,12 @@ function Install_OS_packages {
     sudo wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
+    # add the DBeaver Community Edition GPG key and repo
+    wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo apt-key add -
+    echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
+
     packages=("python3" "python3-pip" "git" "pipenv" "zsh" "software-properties-common" \
-        "apt-transport-https" "code" "curl" "gconf2" "vlc" "zsh" "nodejs" )
+        "apt-transport-https" "code" "curl" "gconf2" "vlc" "zsh" "nodejs" "dbeaver-ce" )
     install_command='sudo apt install'
 
     printf "[+] Installing:\n"
@@ -101,6 +105,7 @@ function Install_OS_packages {
     done
 
     # install the OS packages
+    sudo apt update
     $install_command -y
 
     clear
@@ -113,13 +118,6 @@ function Install_OS_packages {
         snap_install_command="$snap_install_command $package"
     done
     $snap_install_command 
-
-
-    clear
-    # Install DBeaver
-    printf "[+] Installing DBeaver\n"
-    sudo wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb -P /tmp
-    sudo dpkg -i /tmp/dbeaver-ce_latest_amd64.deb
 }
 
 
